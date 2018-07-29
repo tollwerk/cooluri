@@ -7,14 +7,6 @@ CREATE TABLE pages (
 	tx_cooluri_excludealways tinyint(1) unsigned default '0'
 );
 
-#
-# Table structure for table "pages_language_overlay"
-#
-CREATE TABLE pages_language_overlay (
-	tx_realurl_pathsegment varchar(255) DEFAULT '' NOT NULL
-);
-
-
 CREATE TABLE link_cache (
 	id int(10) unsigned NOT NULL auto_increment,
 	params blob,
