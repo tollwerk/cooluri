@@ -143,8 +143,10 @@ class Translate
                 if (isset(self::$conf->cache->cool2params->oldlinksvalidfor)) {
                     $vf = ' AND DATEDIFF(NOW(),'.$tp.'oldlinks.tstamp)<'.(string)self::$conf->cache->cool2params->oldlinksvalidfor;
                 }
-                $q   = $db->query('SELECT '.$tp.'cache.url AS oldlink FROM '.$tp.'oldlinks  LEFT JOIN '.$tp.'cache ON '.$tp.'oldlinks.link_id='.$tp.'cache.id WHERE ('.$tp.'oldlinks.url='.$db->escape($xuri).' OR '.$tp.'oldlinks.url='.$db->escape($tempurix).')'.$vf);
-                $row = $db->fetch($q);
+//                $q   = $db->query('SELECT '.$tp.'cache.url AS oldlink FROM '.$tp.'oldlinks  LEFT JOIN '.$tp.'cache ON '.$tp.'oldlinks.link_id='.$tp.'cache.id WHERE ('.$tp.'oldlinks.url='.$db->escape($xuri).' OR '.$tp.'oldlinks.url='.$db->escape($tempurix).')'.$vf);
+//                $row = $db->fetch($q);
+                $row = $db->queryAndFetchStatement('SELECT '.$tp.'cache.url AS oldlink FROM '.$tp.'oldlinks  LEFT JOIN '.$tp.'cache ON '.$tp.'oldlinks.link_id='.$tp.'cache.id WHERE ('.$tp.'oldlinks.url='.$db->escape($xuri).' OR '.$tp.'oldlinks.url='.$db->escape($tempurix).')'.$vf);
+
                 if ($row) {
                     Functions::redirect(Functions::prepareforRedirect($row['oldlink'].(empty($tempuri[1]) ? '' : '?'.$tempuri[1]),
                         self::$conf), 301);

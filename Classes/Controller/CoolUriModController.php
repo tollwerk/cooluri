@@ -1,4 +1,5 @@
 <?php
+
 namespace Bednarik\Cooluri\Controller;
 
 /***************************************************************
@@ -29,28 +30,32 @@ namespace Bednarik\Cooluri\Controller;
 /**
  * CodeController
  */
-class CoolUriModController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class CoolUriModController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+{
 
-    public function everythingAction() {
+    public function everythingAction()
+    {
         $this->confArray = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cooluri']);
 
-        if (file_exists(PATH_site . $this->confArray['XMLPATH'] . 'CoolUriConf.xml')) {
-            $lt = PATH_site . $this->confArray['XMLPATH'] . 'CoolUriConf.xml';
-        } elseif (file_exists(PATH_typo3conf . 'CoolUriConf.xml')) {
-            $lt = PATH_typo3conf . 'CoolUriConf.xml';
-        } elseif (file_exists(dirname(__FILE__) . '/../cooluri/CoolUriConf.xml')) {
-            $lt = dirname(__FILE__) . '/../cooluri/CoolUriConf.xml';
+        if (file_exists(PATH_site.$this->confArray['XMLPATH'].'CoolUriConf.xml')) {
+            $lt = PATH_site.$this->confArray['XMLPATH'].'CoolUriConf.xml';
+        } elseif (file_exists(PATH_typo3conf.'CoolUriConf.xml')) {
+            $lt = PATH_typo3conf.'CoolUriConf.xml';
+        } elseif (file_exists(dirname(__FILE__).'/../cooluri/CoolUriConf.xml')) {
+            $lt = dirname(__FILE__).'/../cooluri/CoolUriConf.xml';
         } else {
-            $this->view->assign('everything','XML Config file not found');
+            $this->view->assign('everything', 'XML Config file not found');
+
             return;
         }
         $baseUrl = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('tools_CooluriCool1');
-        $lm = new \Bednarik\Cooluri\Manager\Main($baseUrl.'&', $lt, $GLOBALS['BACK_PATH'] . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cooluri').'Resources/Public/CoolUriMod/');
+        $lm      = new \Bednarik\Cooluri\Manager\Main($baseUrl.'&', $lt,
+            '/'.\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('cooluri').'Resources/Public/CoolUriMod/');
 
         $c = $lm->menu();
         $c .= $lm->main();
 
-        $this->view->assign('everything',$c);
+        $this->view->assign('everything', $c);
     }
 
 }

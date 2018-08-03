@@ -616,18 +616,18 @@ class CoolUri
                 return $pagepath;
             }
 
-            if ($langId) {
+//            if ($langId) {
 //                $q  = $db->exec_SELECTquery('*', 'pages_language_overlay',
 //                    'pid='.$id.' AND sys_language_uid='.$langId.$enable);
 //                $lo = $db->sql_fetch_assoc($q);
-                $lo = DBLayer::selectAndFetch('*', 'pages_language_overlay',
-                    'pid='.$id.' AND sys_language_uid='.$langId.$enable);
-                if ($lo) {
-                    unset($lo['uid']);
-                    unset($lo['pid']);
-                    $page = array_merge($page, $lo);
-                }
-            }
+//                $lo = DBLayer::selectAndFetch('*', 'pages_language_overlay',
+//                    'pid='.$id.' AND sys_language_uid='.$langId.$enable);
+//                if ($lo) {
+//                    unset($lo['uid']);
+//                    unset($lo['pid']);
+//                    $page = array_merge($page, $lo);
+//                }
+//            }
 
             if (($page['tx_cooluri_exclude'] == 1 && !empty($pagepath)) || $page['tx_cooluri_excludealways']) {
                 ++$max;
