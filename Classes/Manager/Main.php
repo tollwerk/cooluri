@@ -1,6 +1,8 @@
 <?php
 namespace Bednarik\Cooluri\Manager;
 
+use Doctrine\DBAL\Driver\Statement;
+
 /**
 	This file is part of CoolUri.
 
@@ -266,12 +268,11 @@ class Main {
     	} else {
     		$q = $this->db->query('SELECT * FROM '.$this->table.'cache WHERE LOWER(url) LIKE '.$this->db->escape(strtolower($let).'%').' ORDER BY url');
     	}
-	    $num = $this->db->num_rows($q);
-	    if ($num>0) {
+	    if ($q->rowCount()) {
 	      $c .= '<p class="center text-info">Records found: '.$num.'</p>';
 	      $c .= '<form method="post" action="'.$this->file.'mod=cache">';
 	      $c .= '<table id="list" class="table table-striped" style="table-layout: fixed;"><thead><tr><th class="left" style="width: 30%;">Cached URI</th><th style="width: 30%;">Parameters</th><th style="width: 10%;">Cached</th><th style="width: 10%;">Last check</th><th style="width: 5%;">Sticky</th><th style="width: 20%;">Action</th></tr></thead>';
-	      while ($row = $this->db->fetch($q)) {
+	      while ($row = $q->fetch()) {
 	        $c .= '<tr>
 	          <td class="left" style="word-wrap: break-word;">'.htmlspecialchars($row['url']).'</td>
 	          <td style="word-wrap: break-word;">'.htmlspecialchars($this->serializedArrayToQueryString($row['params'])).'</td>
@@ -326,15 +327,18 @@ class Main {
     </form>';
 
     if (!empty($let)) {
-        $q = $this->db->query('SELECT o.id, o.url AS ourl, l.url AS lurl, o.tstamp, o.sticky FROM '.$this->table.'oldlinks AS o LEFT JOIN '.$this->table.'cache AS l
+//        $q = $this->db->query('SELECT o.id, o.url AS ourl, l.url AS lurl, o.tstamp, o.sticky FROM '.$this->table.'oldlinks AS o LEFT JOIN '.$this->table.'cache AS l
+//                                ON l.id=o.link_id WHERE LOWER(o.url) LIKE '.$this->db->escape(strtolower($let).'%').' ORDER BY o.url');
+//
+//        $num = $this->db->num_rows($q);
+        /** @var Statement $result */
+        $result = $this->db->query('SELECT o.id, o.url AS ourl, l.url AS lurl, o.tstamp, o.sticky FROM '.$this->table.'oldlinks AS o LEFT JOIN '.$this->table.'cache AS l
                                 ON l.id=o.link_id WHERE LOWER(o.url) LIKE '.$this->db->escape(strtolower($let).'%').' ORDER BY o.url');
-
-        $num = $this->db->num_rows($q);
-        if ($num>0) {
+        if ($result->rowCount()) {
           $c .= '<p class="center text-info">Records found: '.$num.'</p>';
           $c .= '<form method="post" action="'.$this->file.'mod=cache">';
           $c .= '<table id="list" class="table table-striped"><tr><th class="left">Old URI</th><th class="left">Cached URI</th><th>Moved to olds</th><th>Sticky</th><th>Action</th>';
-          while ($row = $this->db->fetch($q)) {
+          while ($row = $result->fetch()) {
             $c .= '<tr>
               <td class="left">'.htmlspecialchars($row['ourl']).'</td>
               <td class="left">'.htmlspecialchars($row['lurl']).'</td>

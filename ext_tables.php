@@ -65,16 +65,16 @@ $TCA['pages']['columns']['tx_cooluri_excludealways'] = array(
     )
 );
 
-$TCA['pages_language_overlay']['columns']['tx_realurl_pathsegment'] = array(
-    'label' => 'LLL:EXT:cooluri/locallang_db.php:pages.tx_cooluri_pathsegment',
-    'exclude' => 1,
-    'config' => Array(
-        'type' => 'input',
-        'size' => '50',
-        'max' => '255',
-        'eval' => 'trim,nospace,lower,uniqueInPid'
-    )
-);
+//$TCA['pages_language_overlay']['columns']['tx_realurl_pathsegment'] = array(
+//    'label' => 'LLL:EXT:cooluri/locallang_db.php:pages.tx_cooluri_pathsegment',
+//    'exclude' => 1,
+//    'config' => Array(
+//        'type' => 'input',
+//        'size' => '50',
+//        'max' => '255',
+//        'eval' => 'trim,nospace,lower,uniqueInPid'
+//    )
+//);
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('pages', 'tx_realurl_pathsegment,tx_cooluri_exclude,tx_cooluri_excludealways', '1,2,5,4,254', 'after:nav_title');
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('pages_language_overlay', 'tx_realurl_pathsegment', '1,2,5,4,254', 'after:nav_title');
+//\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('pages_language_overlay', 'tx_realurl_pathsegment', '1,2,5,4,254', 'after:nav_title');
