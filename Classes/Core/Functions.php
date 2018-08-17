@@ -171,14 +171,16 @@ class Functions
         $sql = implode($escapedParam, $pieces);
 
         $db  = DB::getInstance();
-        $res = $db->query($sql);
-        if (!$res || $db->error()) {
-            return $param;
-        }
-        $row = $db->fetch_row($res);
+        $row = $db->queryAndFetchStatement($sql);
+//        $res = $db->query($sql);
+//        if (!$res || $db->error()) {
+//            return $param;
+//        }
+//        $row = $db->fetch_row($res);
         if (!$row) {
             return $param;
         }
+        $row = array_values($row);
         $val = $row[0];
         $k   = 1;
         while (empty($val) && isset($row[$k])) {
@@ -194,7 +196,6 @@ class Functions
         if (!empty($conf->t3conv) && $conf->t3conv == 1) {
             return self::specCharsToASCII($val);
         }
-
         return $val;
     }
 

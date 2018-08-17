@@ -190,6 +190,11 @@ class DBLayer
 
     public function error()
     {
+        try {
+        	throw new \Exception;
+        } catch (\Exception $e) {
+        	echo $e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL;
+        }
         return $GLOBALS['TYPO3_DB']->sql_error();
     }
 
